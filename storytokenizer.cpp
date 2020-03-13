@@ -50,28 +50,35 @@ PartToken PassageTokenizer::nextPart()
     string part;
     char first = text.at(partposition); // first letter as identifier
     int position2 ;
-    if( partposition != string::npos){
-        if ( first == '('){
+    if( partposition != string::npos)
+    {
+        if ( first == '(')
+        {
             position2 = text.find(')',partposition);
             part = text.substr(partposition, position2 - partposition + 1);
 
         }
         else if( first == '[')
         {
-            if ( text.at(partposition + 1) == '['){
+            if ( text.at(partposition + 1) == '[')
+            {
                 position2 = (text.find(']',partposition ))+ 1;
                 part = text.substr(partposition, position2 - partposition + 1);
             }
-            else{
+            
+            else
+            {
                 int temp = partposition; // holds position for [ between []
                 position2 = text.find(']',partposition);
 
-                while( temp != string::npos && position2 != (text.length() - 1)){
+                while( temp != string::npos && position2 != (text.length() - 1))
+                {
                     temp = text.find('[', temp  + 1);
 
                     if ( temp == -1 || temp < partposition)
                         break;
-                    if ( temp != -1 && temp < position2){
+                    if ( temp != -1 && temp < position2)
+                    {
                         position2 =  text.find(']', position2  + 1);
                     }
 
@@ -79,7 +86,8 @@ PartToken PassageTokenizer::nextPart()
                 part = text.substr(partposition, position2 - partposition + 1 );
             }
         }
-        else{
+        else
+        {
             int pos1 = text.find('(',partposition);
             int pos2 = text.find('[', partposition);
             if ( (pos1 < pos2) && (pos1 > 0) && (pos2 > 0) )
@@ -103,7 +111,8 @@ PartToken::PartToken(string str)
 {
     part = str;
 }
-int PartToken::getType(){
+int PartToken::getType()
+{
     int val;
     if ( part.at(0) == '('){//look for command
         int pos2 = part.find(':');
@@ -130,6 +139,7 @@ int PartToken::getType(){
 
 return val;   
 }
-string PartToken::getText(){
+string PartToken::getText()
+{
     return part;
 }
